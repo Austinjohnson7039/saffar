@@ -20,11 +20,53 @@ interface Trip {
 }
 
 interface TripHistoryProps {
-  trips: Trip[]
-  onTripSelect: (trip: Trip) => void
+  trips?: Trip[]
+  onTripSelect?: (trip: Trip) => void
 }
 
-export function TripHistory({ trips, onTripSelect }: TripHistoryProps) {
+const defaultTrips: Trip[] = [
+  {
+    id: 1,
+    destination: "Goa, India",
+    dates: "Dec 15-22, 2023",
+    status: "completed",
+    totalCost: 45000,
+    rating: 5,
+    image: "/placeholder.svg?height=200&width=300&text=Goa+Beach",
+    highlights: ["Baga Beach", "Old Goa Churches", "Spice Plantations"],
+  },
+  {
+    id: 2,
+    destination: "Kerala Backwaters",
+    dates: "Jan 10-17, 2024",
+    status: "completed",
+    totalCost: 38000,
+    rating: 4,
+    image: "/placeholder.svg?height=200&width=300&text=Kerala+Backwaters",
+    highlights: ["Alleppey Houseboat", "Kumarakom Bird Sanctuary", "Spice Gardens"],
+  },
+  {
+    id: 3,
+    destination: "Rajasthan Heritage",
+    dates: "Mar 5-15, 2024",
+    status: "completed",
+    totalCost: 62000,
+    rating: 5,
+    image: "/placeholder.svg?height=200&width=300&text=Rajasthan+Palace",
+    highlights: ["Jaipur City Palace", "Udaipur Lake Palace", "Jodhpur Blue City"],
+  },
+  {
+    id: 4,
+    destination: "Himachal Pradesh",
+    dates: "May 20-28, 2024",
+    status: "upcoming",
+    totalCost: 55000,
+    image: "/placeholder.svg?height=200&width=300&text=Himachal+Mountains",
+    highlights: ["Manali Adventure", "Shimla Hill Station", "Dharamshala Monasteries"],
+  },
+]
+
+export function TripHistory({ trips = defaultTrips, onTripSelect }: TripHistoryProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
 
@@ -109,7 +151,7 @@ export function TripHistory({ trips, onTripSelect }: TripHistoryProps) {
           <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
             <CardContent className="p-4 text-center">
               <div className="text-2xl font-bold text-white mb-1">
-                ${trips.reduce((sum, trip) => sum + trip.totalCost, 0).toLocaleString()}
+                ₹{trips.reduce((sum, trip) => sum + trip.totalCost, 0).toLocaleString()}
               </div>
               <div className="text-sm text-gray-400">Total Spent</div>
             </CardContent>
@@ -135,7 +177,7 @@ export function TripHistory({ trips, onTripSelect }: TripHistoryProps) {
             <Card
               key={trip.id}
               className="backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer group overflow-hidden"
-              onClick={() => onTripSelect(trip)}
+              onClick={() => onTripSelect?.(trip)}
             >
               <div className="relative h-48 overflow-hidden">
                 <img
@@ -158,7 +200,7 @@ export function TripHistory({ trips, onTripSelect }: TripHistoryProps) {
                   </div>
                   <div className="flex items-center text-gray-400">
                     <DollarSign className="w-4 h-4 mr-2" />
-                    <span className="text-sm">${trip.totalCost.toLocaleString()}</span>
+                    <span className="text-sm">₹{trip.totalCost.toLocaleString()}</span>
                   </div>
                   {trip.highlights && (
                     <div className="flex items-center text-gray-400">

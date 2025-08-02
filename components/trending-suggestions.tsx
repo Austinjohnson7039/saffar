@@ -6,27 +6,27 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
 export function TrendingSuggestions() {
-  const trendingDestinations = [
+  const trivandrumDestinations = [
     {
-      name: "Santorini, Greece",
+      name: "Kovalam Beach",
       trend: "+45%",
-      reason: "Viral sunset photos on Instagram",
-      price: "$1,200",
-      image: "/placeholder.svg?height=150&width=200&text=Santorini",
+      reason: "Perfect lighthouse views and Ayurvedic spas",
+      price: "₹8,500",
+      image: "/placeholder.svg?height=150&width=200&text=Kovalam+Beach",
     },
     {
-      name: "Kyoto, Japan",
+      name: "Padmanabhaswamy Temple",
       trend: "+38%",
-      reason: "Cherry blossom season trending on TikTok",
-      price: "$1,800",
-      image: "/placeholder.svg?height=150&width=200&text=Kyoto",
+      reason: "Ancient architecture and spiritual significance",
+      price: "₹2,200",
+      image: "/placeholder.svg?height=150&width=200&text=Padmanabhaswamy+Temple",
     },
     {
-      name: "Iceland",
+      name: "Varkala Cliffs",
       trend: "+52%",
-      reason: "Northern Lights content going viral",
-      price: "$2,100",
-      image: "/placeholder.svg?height=150&width=200&text=Iceland",
+      reason: "Dramatic clifftop views and pristine beaches",
+      price: "₹6,800",
+      image: "/placeholder.svg?height=150&width=200&text=Varkala+Cliffs",
     },
   ]
 
@@ -37,15 +37,15 @@ export function TrendingSuggestions() {
           <div>
             <h1 className="text-3xl font-bold text-white mb-2 flex items-center">
               <TrendingUp className="w-8 h-8 mr-3 text-green-400" />
-              Trending Now
+              Trending in Trivandrum
             </h1>
-            <p className="text-gray-400">Destinations that are viral on social media right now</p>
+            <p className="text-gray-400">Popular destinations and experiences near you</p>
           </div>
           <Badge className="bg-green-500/20 text-green-400 border-green-500/30 animate-pulse">Live Updates</Badge>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {trendingDestinations.map((destination, index) => (
+          {trivandrumDestinations.map((destination, index) => (
             <Card
               key={index}
               className="backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all duration-300 group overflow-hidden"
@@ -87,42 +87,60 @@ export function TrendingSuggestions() {
           ))}
         </div>
 
-        {/* Social Media Trends */}
+        {/* Local Trends */}
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
           <CardHeader>
             <CardTitle className="text-white flex items-center">
               <TrendingUp className="w-5 h-5 mr-2" />
-              What's Trending on Social Media
+              What's Popular in Kerala
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                  <span className="text-white">#SantoriniSunset</span>
-                  <Badge className="bg-red-500/20 text-red-400">2.3M posts</Badge>
+                  <div>
+                    <span className="text-white">Ayurvedic Treatments</span>
+                    <p className="text-xs text-gray-400">Traditional wellness experiences</p>
+                  </div>
+                  <Badge className="bg-green-500/20 text-green-400">+67% bookings</Badge>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                  <span className="text-white">#CherryBlossomJapan</span>
-                  <Badge className="bg-pink-500/20 text-pink-400">5.2M interactions</Badge>
+                  <div>
+                    <span className="text-white">Backwater Cruises</span>
+                    <p className="text-xs text-gray-400">Peaceful houseboat journeys</p>
+                  </div>
+                  <Badge className="bg-blue-500/20 text-blue-400">+43% interest</Badge>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                  <span className="text-white">#NorthernLightsIceland</span>
-                  <Badge className="bg-blue-500/20 text-blue-400">1.8M posts</Badge>
+                  <div>
+                    <span className="text-white">Spice Plantation Tours</span>
+                    <p className="text-xs text-gray-400">Authentic Kerala flavors</p>
+                  </div>
+                  <Badge className="bg-orange-500/20 text-orange-400">+38% searches</Badge>
                 </div>
               </div>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                  <span className="text-white">Digital nomad destinations</span>
-                  <Badge className="bg-green-500/20 text-green-400">+67% searches</Badge>
+                  <div>
+                    <span className="text-white">Beach Resorts</span>
+                    <p className="text-xs text-gray-400">Luxury coastal stays</p>
+                  </div>
+                  <Badge className="bg-purple-500/20 text-purple-400">+52% bookings</Badge>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                  <span className="text-white">Sustainable travel</span>
-                  <Badge className="bg-green-500/20 text-green-400">+43% mentions</Badge>
+                  <div>
+                    <span className="text-white">Cultural Festivals</span>
+                    <p className="text-xs text-gray-400">Traditional celebrations</p>
+                  </div>
+                  <Badge className="bg-pink-500/20 text-pink-400">+29% participation</Badge>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                  <span className="text-white">Island hopping videos</span>
-                  <Badge className="bg-purple-500/20 text-purple-400">Trending on TikTok</Badge>
+                  <div>
+                    <span className="text-white">Wildlife Sanctuaries</span>
+                    <p className="text-xs text-gray-400">Nature and wildlife tours</p>
+                  </div>
+                  <Badge className="bg-green-500/20 text-green-400">+41% visits</Badge>
                 </div>
               </div>
             </div>

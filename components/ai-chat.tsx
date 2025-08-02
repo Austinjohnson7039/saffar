@@ -15,23 +15,23 @@ interface AIChatProps {
 const getContextualGreeting = (view?: string) => {
   switch (view) {
     case "itinerary":
-      return "I can help optimize your itinerary! Based on current trends, I see Santorini sunsets are viral right now (+45% searches). Want me to suggest trending activities for your trip?"
+      return "I can help optimize your itinerary! Based on current trends, Kovalam Beach is getting popular (+45% searches). Want me to suggest trending activities for your Trivandrum trip?"
     case "expenses":
-      return "Let me help you budget smarter! I notice eco-tourism is trending (+41% interest). Costa Rica could be a great budget-friendly option. Want cost comparisons?"
+      return "Let me help you budget better! I notice Ayurvedic treatments are trending (+67% interest). Kerala could be a great value option. Want cost comparisons?"
     case "emergency":
-      return "Safety first! I have real-time updates on travel advisories. Currently, Japan has excellent safety ratings and cherry blossom season is trending. Need specific safety info?"
+      return "Safety first! I have real-time updates on travel advisories. Currently, Kerala has excellent safety ratings and monsoon season info. Need specific safety details?"
     case "history":
-      return "Looking at your amazing travel history! I see you loved Tokyo and Paris. Based on social trends, Kyoto is having a moment (+38% searches) - perfect for your Japan love!"
+      return "Looking at your travel history! I see you loved Goa and Kerala. Based on trends, Varkala Cliffs are having a moment (+52% searches) - perfect for your coastal preferences!"
     default:
-      return "Hey there! 🌟 I'm seeing some exciting travel trends right now. Santorini is absolutely viral (+45% searches), and Iceland's Northern Lights content is everywhere! What's your next adventure?"
+      return "Hey there! 🌟 I'm seeing some exciting travel trends in Kerala right now. Kovalam Beach is getting popular (+45% searches), and Ayurvedic treatments are everywhere! What's your next adventure?"
   }
 }
 
 const getTrendingSuggestions = () => {
   return [
-    "🔥 Show me trending destinations",
-    "📱 What's viral on social media?",
-    "💰 Budget-friendly trending spots",
+    "🔥 Show me trending Kerala spots",
+    "📱 What's popular in Trivandrum?",
+    "💰 Budget-friendly local places",
     "🌟 Personalized recommendations",
   ]
 }
@@ -49,111 +49,111 @@ export function AIChat({ onClose, currentView }: AIChatProps) {
   const [inputValue, setInputValue] = useState("")
   const [isTyping, setIsTyping] = useState(false)
 
-  // Trending places and social media data
-  const trendingDestinations = [
-    { name: "Santorini, Greece", trend: "+45%", reason: "Viral sunset photos on Instagram" },
-    { name: "Kyoto, Japan", trend: "+38%", reason: "Cherry blossom season trending on TikTok" },
-    { name: "Iceland", trend: "+52%", reason: "Northern Lights content going viral" },
-    { name: "Dubai, UAE", trend: "+29%", reason: "Luxury travel influencers" },
-    { name: "Costa Rica", trend: "+41%", reason: "Eco-tourism trending on social media" },
+  // Trivandrum and Kerala specific data
+  const trivandrumDestinations = [
+    { name: "Kovalam Beach", trend: "+45%", reason: "Perfect lighthouse views and Ayurvedic spas" },
+    { name: "Padmanabhaswamy Temple", trend: "+38%", reason: "Ancient architecture and spiritual significance" },
+    { name: "Varkala Cliffs", trend: "+52%", reason: "Dramatic clifftop views and pristine beaches" },
+    { name: "Neyyar Wildlife Sanctuary", trend: "+29%", reason: "Nature lovers and wildlife photography" },
+    { name: "Kanyakumari", trend: "+41%", reason: "Sunrise and sunset at India's southern tip" },
   ]
 
-  const socialMediaTrends = [
-    "🔥 #SantoriniSunset has 2.3M posts this week",
-    "📈 'Digital nomad destinations' searches up 67%",
-    "🌸 Cherry blossom content peaked at 5.2M interactions",
-    "✈️ 'Sustainable travel' mentions increased 43%",
-    "🏝️ Island hopping videos trending on TikTok",
+  const localTrends = [
+    "🔥 #KovalamBeach has 450K posts this month",
+    "📈 'Ayurvedic treatments' searches up 67%",
+    "🌊 Varkala cliff content peaked at 280K interactions",
+    "✈️ 'Kerala backwaters' mentions increased 43%",
+    "🏛️ Temple photography trending on Instagram",
   ]
 
-  const getSmartResponse = (userMessage: string) => {
+  const getResponse = (userMessage: string) => {
     const message = userMessage.toLowerCase()
 
-    if (message.includes("trending") || message.includes("popular") || message.includes("viral")) {
+    if (message.includes("trending") || message.includes("popular") || message.includes("kerala")) {
       return {
-        content: `Here are the hottest destinations right now! 🔥\n\n${trendingDestinations
+        content: `Here are the hottest destinations in Kerala right now! 🔥\n\n${trivandrumDestinations
           .map((dest) => `📍 **${dest.name}** (${dest.trend})\n   ${dest.reason}`)
-          .join("\n\n")}\n\nWhich one catches your eye? I can create a personalized itinerary!`,
+          .join("\n\n")}\n\nWhich one interests you? I can create a personalized itinerary!`,
         suggestions: [
-          "Plan Santorini trip",
-          "Iceland Northern Lights tour",
-          "Japan cherry blossoms",
-          "Dubai luxury experience",
+          "Plan Kovalam beach trip",
+          "Varkala cliffs experience",
+          "Temple tour itinerary",
+          "Wildlife sanctuary visit",
         ],
       }
     }
 
-    if (message.includes("social media") || message.includes("instagram") || message.includes("tiktok")) {
+    if (message.includes("trivandrum") || message.includes("local")) {
       return {
-        content: `Here's what's trending on social media right now! 📱\n\n${socialMediaTrends.join("\n")}\n\nThese trends can help you plan Instagram-worthy trips and discover hidden gems before they get too crowded!`,
+        content: `Here's what's trending in Trivandrum! 📱\n\n${localTrends.join("\n")}\n\nThese trends can help you plan amazing trips and discover hidden gems before they get crowded!`,
         suggestions: [
-          "Plan viral-worthy trip",
-          "Hidden gems before crowds",
-          "Best photo spots",
-          "Social media travel tips",
+          "Plan photo-worthy trip",
+          "Hidden gems near Trivandrum",
+          "Best local photo spots",
+          "Ayurvedic spa recommendations",
         ],
       }
     }
 
     if (message.includes("budget") || message.includes("cheap") || message.includes("affordable")) {
       return {
-        content: `Smart budgeting! 💰 Based on current trends:\n\n🌿 **Costa Rica** - Eco-tourism trending (+41%), great value\n🏛️ **Greece** - Off-season deals, viral potential\n🍜 **Vietnam** - Food scene exploding on social media\n🏔️ **Nepal** - Adventure travel trending, budget-friendly\n\nI can create detailed budget breakdowns for any of these!`,
+        content: `Great value options in Kerala! 💰 Based on current trends:\n\n🌿 **Neyyar Wildlife** - Nature tours, great value\n🏖️ **Kovalam** - Beach stays, off-season deals\n🏛️ **Local Temples** - Free cultural experiences\n🌊 **Varkala** - Budget backpacker friendly\n\nI can create detailed budget breakdowns for any of these!`,
         suggestions: [
-          "Costa Rica eco-trip budget",
-          "Greece off-season deals",
-          "Vietnam food tour costs",
-          "Nepal adventure budget",
+          "Kovalam budget breakdown",
+          "Temple tour costs",
+          "Varkala backpacker guide",
+          "Wildlife sanctuary budget",
         ],
       }
     }
 
-    if (message.includes("japan") || message.includes("tokyo") || message.includes("kyoto")) {
+    if (message.includes("beach") || message.includes("kovalam") || message.includes("varkala")) {
       return {
-        content: `Perfect timing for Japan! 🌸 Cherry blossom season is trending massively on TikTok (5.2M interactions). Based on your Tokyo trip history:\n\n🏯 **Kyoto** - Traditional temples, trending +38%\n🗾 **Osaka** - Food scene viral on social media\n🏔️ **Hakone** - Mt. Fuji views, Instagram gold\n\nWant me to plan a Japan return trip with trending spots?`,
+        content: `Perfect timing for Kerala beaches! 🌊 Kovalam and Varkala are trending massively. Based on your preferences:\n\n🏖️ **Kovalam Beach** - Lighthouse views, trending +45%\n🏔️ **Varkala Cliffs** - Dramatic views, Instagram favorite\n🌅 **Kanyakumari** - Sunrise/sunset point\n\nWant me to plan a coastal Kerala trip with trending spots?`,
         suggestions: [
-          "Plan Kyoto temple tour",
-          "Osaka food adventure",
-          "Mt. Fuji photo spots",
-          "Japan cherry blossom timing",
+          "Plan Kovalam lighthouse tour",
+          "Varkala cliff photography",
+          "Kanyakumari sunrise trip",
+          "Beach hopping itinerary",
         ],
       }
     }
 
-    if (message.includes("europe") || message.includes("paris") || message.includes("barcelona")) {
+    if (message.includes("temple") || message.includes("culture") || message.includes("spiritual")) {
       return {
-        content: `Europe is having a moment! ✨ Based on your Paris and Barcelona experiences:\n\n🇬🇷 **Santorini** - Most viral destination (+45%)\n🇮🇸 **Iceland** - Northern Lights content exploding\n🇵🇹 **Portugal** - Hidden gem before it gets too popular\n🇭🇷 **Croatia** - Coastal beauty trending\n\nWhich European adventure calls to you?`,
+        content: `Kerala's spiritual heritage is amazing! ✨ Based on current interest:\n\n🏛️ **Padmanabhaswamy Temple** - Ancient architecture (+38%)\n🕉️ **Attukal Temple** - Famous for festivals\n🌿 **Ayurvedic Centers** - Wellness trending (+67%)\n🎭 **Cultural Shows** - Traditional performances\n\nWhich spiritual experience calls to you?`,
         suggestions: [
-          "Santorini sunset trip",
-          "Iceland Northern Lights",
-          "Portugal hidden gems",
-          "Croatia island hopping",
+          "Temple architecture tour",
+          "Ayurvedic wellness trip",
+          "Cultural festival timing",
+          "Spiritual retreat planning",
         ],
       }
     }
 
-    // Default responses with trending context
+    // Default responses with local context
     const responses = [
       {
-        content: `Great question! 🤔 Right now I'm seeing huge interest in sustainable travel (+43% mentions). Want me to suggest eco-friendly destinations that are also trending?`,
+        content: `Great question! 🤔 Right now I'm seeing huge interest in Ayurvedic treatments (+67% mentions). Want me to suggest wellness destinations around Trivandrum?`,
         suggestions: [
-          "Eco-friendly trending spots",
-          "Sustainable travel tips",
-          "Green destinations",
-          "Carbon-neutral trips",
+          "Ayurvedic spa recommendations",
+          "Wellness retreat options",
+          "Traditional treatment centers",
+          "Yoga and meditation spots",
         ],
       },
       {
-        content: `Based on current social media trends, digital nomad destinations are up 67%! Are you interested in workation spots that are Instagram-worthy too?`,
+        content: `Based on current trends, beach destinations are up 45%! Are you interested in coastal spots that are Instagram-worthy too?`,
         suggestions: [
-          "Best workation spots",
-          "Digital nomad trending cities",
-          "Work-friendly cafes",
-          "Nomad visa countries",
+          "Best beach photography spots",
+          "Coastal village experiences",
+          "Sunset viewing points",
+          "Water sports activities",
         ],
       },
       {
-        content: `I'm tracking some amazing travel deals right now! Off-season bookings for trending destinations can save you 40-60%. Want personalized recommendations?`,
-        suggestions: ["Off-season trending deals", "Best booking timing", "Price drop alerts", "Seasonal travel tips"],
+        content: `I'm tracking some amazing local deals right now! Off-season bookings for Kerala destinations can save you 40-60%. Want personalized recommendations?`,
+        suggestions: ["Off-season Kerala deals", "Best booking timing", "Price drop alerts", "Monsoon travel tips"],
       },
     ]
 
@@ -178,7 +178,7 @@ export function AIChat({ onClose, currentView }: AIChatProps) {
     // Simulate AI typing and response
     setTimeout(() => {
       setIsTyping(false)
-      const response = getSmartResponse(currentInput)
+      const response = getResponse(currentInput)
       const aiResponse = {
         id: messages.length + 2,
         type: "ai",
@@ -296,11 +296,11 @@ export function AIChat({ onClose, currentView }: AIChatProps) {
           <div className="flex items-center space-x-2 text-xs">
             <TrendingUp className="w-3 h-3 text-green-400" />
             <span className="text-green-400">Live:</span>
-            <span className="text-white">Santorini +45%</span>
+            <span className="text-white">Kovalam +45%</span>
             <span className="text-gray-400">•</span>
-            <span className="text-white">Iceland +52%</span>
+            <span className="text-white">Varkala +52%</span>
             <span className="text-gray-400">•</span>
-            <span className="text-white">Kyoto +38%</span>
+            <span className="text-white">Temples +38%</span>
           </div>
         </div>
 
@@ -310,7 +310,7 @@ export function AIChat({ onClose, currentView }: AIChatProps) {
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask about trending destinations..."
+              placeholder="Ask about Kerala destinations..."
               className="bg-white/5 border-white/20 text-white placeholder:text-gray-400"
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
             />

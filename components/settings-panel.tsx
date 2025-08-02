@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { User, Bell, Shield, Globe, Save } from "lucide-react"
+import { User, Bell, Shield, Globe, Save, Moon, Sun } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,21 +9,49 @@ import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
+import { useTheme } from "next-themes"
 
 export function SettingsPanel() {
-  const [budget, setBudget] = useState([1500])
+  const [budget, setBudget] = useState([125000])
   const [notifications, setNotifications] = useState(true)
+  const { theme, setTheme } = useTheme()
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-8">Settings & Preferences</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8">Settings & Preferences</h1>
 
         <div className="grid gap-6">
-          {/* Profile Settings */}
-          <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
+          {/* Theme Settings */}
+          <Card className="backdrop-blur-xl bg-card border border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center">
+              <CardTitle className="text-foreground flex items-center">
+                {theme === "dark" ? <Moon className="w-5 h-5 mr-2" /> : <Sun className="w-5 h-5 mr-2" />}
+                Appearance
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-muted-foreground">Theme Mode</Label>
+                  <p className="text-sm text-muted-foreground">Choose your preferred theme</p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Sun className="w-4 h-4 text-muted-foreground" />
+                  <Switch
+                    checked={theme === "dark"}
+                    onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+                  />
+                  <Moon className="w-4 h-4 text-muted-foreground" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Profile Settings */}
+          <Card className="backdrop-blur-xl bg-card border border-border">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center">
                 <User className="w-5 h-5 mr-2" />
                 Profile Information
               </CardTitle>
@@ -31,20 +59,24 @@ export function SettingsPanel() {
             <CardContent className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-gray-300">
+                  <Label htmlFor="name" className="text-muted-foreground">
                     Full Name
                   </Label>
-                  <Input id="name" defaultValue="Alex Johnson" className="bg-white/5 border-white/20 text-white" />
+                  <Input
+                    id="name"
+                    defaultValue="Alex Johnson"
+                    className="bg-background border-border text-foreground"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-300">
+                  <Label htmlFor="email" className="text-muted-foreground">
                     Email
                   </Label>
                   <Input
                     id="email"
                     type="email"
                     defaultValue="alex@example.com"
-                    className="bg-white/5 border-white/20 text-white"
+                    className="bg-background border-border text-foreground"
                   />
                 </div>
               </div>
@@ -52,9 +84,9 @@ export function SettingsPanel() {
           </Card>
 
           {/* Travel Preferences */}
-          <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
+          <Card className="backdrop-blur-xl bg-card border border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center">
+              <CardTitle className="text-foreground flex items-center">
                 <Globe className="w-5 h-5 mr-2" />
                 Travel Preferences
               </CardTitle>
@@ -62,9 +94,9 @@ export function SettingsPanel() {
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Preferred Hotel Type</Label>
+                  <Label className="text-muted-foreground">Preferred Hotel Type</Label>
                   <Select defaultValue="luxury">
-                    <SelectTrigger className="bg-white/5 border-white/20 text-white">
+                    <SelectTrigger className="bg-background border-border text-foreground">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -77,9 +109,9 @@ export function SettingsPanel() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Transportation Mode</Label>
+                  <Label className="text-muted-foreground">Transportation Mode</Label>
                   <Select defaultValue="mixed">
-                    <SelectTrigger className="bg-white/5 border-white/20 text-white">
+                    <SelectTrigger className="bg-background border-border text-foreground">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -93,22 +125,29 @@ export function SettingsPanel() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-gray-300">Default Budget Range</Label>
+                <Label className="text-muted-foreground">Default Budget Range</Label>
                 <div className="px-3">
-                  <Slider value={budget} onValueChange={setBudget} max={5000} min={500} step={100} className="w-full" />
-                  <div className="flex justify-between text-sm text-gray-400 mt-1">
-                    <span>$500</span>
-                    <span className="text-purple-400 font-semibold">${budget[0]}</span>
-                    <span>$5000</span>
+                  <Slider
+                    value={budget}
+                    onValueChange={setBudget}
+                    max={500000}
+                    min={25000}
+                    step={5000}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-sm text-muted-foreground mt-1">
+                    <span>₹25,000</span>
+                    <span className="text-purple-400 font-semibold">₹{budget[0].toLocaleString()}</span>
+                    <span>₹5,00,000</span>
                   </div>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Cuisine Preference</Label>
+                  <Label className="text-muted-foreground">Cuisine Preference</Label>
                   <Select defaultValue="local">
-                    <SelectTrigger className="bg-white/5 border-white/20 text-white">
+                    <SelectTrigger className="bg-background border-border text-foreground">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -121,9 +160,9 @@ export function SettingsPanel() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Activity Level</Label>
+                  <Label className="text-muted-foreground">Activity Level</Label>
                   <Select defaultValue="moderate">
-                    <SelectTrigger className="bg-white/5 border-white/20 text-white">
+                    <SelectTrigger className="bg-background border-border text-foreground">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -138,9 +177,9 @@ export function SettingsPanel() {
           </Card>
 
           {/* Notifications */}
-          <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
+          <Card className="backdrop-blur-xl bg-card border border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center">
+              <CardTitle className="text-foreground flex items-center">
                 <Bell className="w-5 h-5 mr-2" />
                 Notifications
               </CardTitle>
@@ -148,24 +187,24 @@ export function SettingsPanel() {
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-gray-300">Trip Updates</Label>
-                  <p className="text-sm text-gray-400">Get notified about changes to your itinerary</p>
+                  <Label className="text-muted-foreground">Trip Updates</Label>
+                  <p className="text-sm text-muted-foreground">Get notified about changes to your itinerary</p>
                 </div>
                 <Switch checked={notifications} onCheckedChange={setNotifications} />
               </div>
 
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-gray-300">Weather Alerts</Label>
-                  <p className="text-sm text-gray-400">Receive weather-related travel advisories</p>
+                  <Label className="text-muted-foreground">Weather Alerts</Label>
+                  <p className="text-sm text-muted-foreground">Receive weather-related travel advisories</p>
                 </div>
                 <Switch defaultChecked />
               </div>
 
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-gray-300">Price Drops</Label>
-                  <p className="text-sm text-gray-400">Alert me when prices drop for saved trips</p>
+                  <Label className="text-muted-foreground">Price Drops</Label>
+                  <p className="text-sm text-muted-foreground">Alert me when prices drop for saved trips</p>
                 </div>
                 <Switch defaultChecked />
               </div>
@@ -173,9 +212,9 @@ export function SettingsPanel() {
           </Card>
 
           {/* Privacy & Security */}
-          <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
+          <Card className="backdrop-blur-xl bg-card border border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center">
+              <CardTitle className="text-foreground flex items-center">
                 <Shield className="w-5 h-5 mr-2" />
                 Privacy & Security
               </CardTitle>
@@ -183,16 +222,16 @@ export function SettingsPanel() {
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-gray-300">Data Sharing</Label>
-                  <p className="text-sm text-gray-400">Allow AI to learn from your travel patterns</p>
+                  <Label className="text-muted-foreground">Data Sharing</Label>
+                  <p className="text-sm text-muted-foreground">Allow AI to learn from your travel patterns</p>
                 </div>
                 <Switch defaultChecked />
               </div>
 
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-gray-300">Location Services</Label>
-                  <p className="text-sm text-gray-400">Enable location-based recommendations</p>
+                  <Label className="text-muted-foreground">Location Services</Label>
+                  <p className="text-sm text-muted-foreground">Enable location-based recommendations</p>
                 </div>
                 <Switch defaultChecked />
               </div>

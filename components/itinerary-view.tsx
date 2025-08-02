@@ -17,6 +17,21 @@ interface ItineraryViewProps {
 export function ItineraryView({ tripData, onActivitySelect, onBooking }: ItineraryViewProps) {
   const [activeTab, setActiveTab] = useState("overview")
 
+  // Add safety checks for tripData
+  if (!tripData) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <p className="text-white">No trip data available</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Ensure itinerary exists and is an array
+  const itinerary = tripData.itinerary || []
+  const budget = tripData.budget || { total: 0, spent: 0, remaining: 0 }
+
   const getActivityIcon = (type: string) => {
     switch (type) {
       case "hotel":
@@ -83,79 +98,89 @@ export function ItineraryView({ tripData, onActivitySelect, onBooking }: Itinera
 
         <TabsContent value="overview" className="space-y-6">
           {/* Daily Itinerary */}
-          {tripData.itinerary.map((day: any, dayIndex: number) => (
-            <Card key={dayIndex} className="backdrop-blur-xl bg-white/10 border border-white/20">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center">
-                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center mr-3 text-sm font-bold">
-                    {day.day}
-                  </div>
-                  Day {day.day} - {day.date}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {day.activities.map((activity: any, activityIndex: number) => (
-                  <div
-                    key={activityIndex}
-                    className="flex items-start space-x-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group cursor-pointer"
-                    onClick={() => handleActivityClick(activity)}
-                  >
-                    <div className="flex-shrink-0">
-                      <div
-                        className={`w-10 h-10 bg-gradient-to-r ${getActivityColor(activity.type)} rounded-lg flex items-center justify-center`}
-                      >
-                        {getActivityIcon(activity.type)}
-                      </div>
+          {itinerary.length > 0 ? (
+            itinerary.map((day: any, dayIndex: number) => (
+              <Card key={dayIndex} className="backdrop-blur-xl bg-white/10 border border-white/20">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center">
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center mr-3 text-sm font-bold">
+                      {day.day}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="text-white font-semibold">{activity.title}</h4>
-                        <div className="flex items-center space-x-2">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              // Handle "Why this?" functionality
-                            }}
-                          >
-                            <MessageCircle className="w-4 h-4 mr-1" />
-                            Why this?
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-purple-400 hover:text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              handleActivityClick(activity)
-                            }}
-                          >
-                            View Details
-                          </Button>
+                    Day {day.day} - {day.date}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {(day.activities || []).map((activity: any, activityIndex: number) => (
+                    <div
+                      key={activityIndex}
+                      className="flex items-start space-x-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group cursor-pointer"
+                      onClick={() => handleActivityClick(activity)}
+                    >
+                      <div className="flex-shrink-0">
+                        <div
+                          className={`w-10 h-10 bg-gradient-to-r ${getActivityColor(activity.type)} rounded-lg flex items-center justify-center`}
+                        >
+                          {getActivityIcon(activity.type)}
                         </div>
                       </div>
-                      <div className="flex items-center space-x-4 text-sm text-gray-400">
-                        <span className="flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
-                          {activity.time}
-                        </span>
-                        <span className="flex items-center">
-                          <MapPin className="w-4 h-4 mr-1" />
-                          {activity.location}
-                        </span>
-                        <span className="flex items-center">
-                          <Star className="w-4 h-4 mr-1 text-yellow-400" />
-                          {activity.rating}
-                        </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="text-white font-semibold">{activity.title}</h4>
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                // Handle "Why this?" functionality
+                              }}
+                            >
+                              <MessageCircle className="w-4 h-4 mr-1" />
+                              Why this?
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="text-purple-400 hover:text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleActivityClick(activity)
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-4 text-sm text-gray-400">
+                          <span className="flex items-center">
+                            <Clock className="w-4 h-4 mr-1" />
+                            {activity.time}
+                          </span>
+                          <span className="flex items-center">
+                            <MapPin className="w-4 h-4 mr-1" />
+                            {activity.location}
+                          </span>
+                          <span className="flex items-center">
+                            <Star className="w-4 h-4 mr-1 text-yellow-400" />
+                            {activity.rating}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
+              <CardContent className="p-8 text-center">
+                <MapPin className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">No Itinerary Available</h3>
+                <p className="text-gray-400">Your trip itinerary will appear here once generated.</p>
               </CardContent>
             </Card>
-          ))}
+          )}
         </TabsContent>
 
         <TabsContent value="route" className="space-y-6">
@@ -191,12 +216,12 @@ export function ItineraryView({ tripData, onActivitySelect, onBooking }: Itinera
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-400">Spent</span>
-                    <span className="text-white">${tripData.budget.spent}</span>
+                    <span className="text-white">${budget.spent || 0}</span>
                   </div>
-                  <Progress value={(tripData.budget.spent / tripData.budget.total) * 100} className="h-2" />
+                  <Progress value={budget.total > 0 ? (budget.spent / budget.total) * 100 : 0} className="h-2" />
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-400">Remaining</span>
-                    <span className="text-green-400">${tripData.budget.remaining}</span>
+                    <span className="text-green-400">${budget.remaining || 0}</span>
                   </div>
                 </div>
               </CardContent>
